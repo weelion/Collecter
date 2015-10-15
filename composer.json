@@ -20,17 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Weelion\\Collecter\\": "src/"
+            "Ltbl\\Collecter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Weelion\\Collecter\\": "tests/"
-        }
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
+            "Ltbl\\Collecter\\": "tests/"
         }
     }
 }
