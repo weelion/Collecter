@@ -1,6 +1,6 @@
 <?php
 
-namespace Ltbl\Collecter;
+namespace Weelion\Collecter;
 
 /**
  * 百度（传度）采集器

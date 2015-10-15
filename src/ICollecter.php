@@ -1,6 +1,6 @@
 <?php
 
-namespace Ltbl\Collecter;
+namespace Weelion\Collecter;
 
 /**
  * 采集器接口

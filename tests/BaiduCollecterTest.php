@@ -1,8 +1,8 @@
 <?php
 
-namespace Ltbl\Collecter\Tests;
+namespace Weelion\Collecter\Tests;
 
-use Ltbl\Collecter\BaiduCollecter;
+use Weelion\Collecter\BaiduCollecter;
 
 class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
 

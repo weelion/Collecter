@@ -1,7 +1,7 @@
 {
-    "name": "ltbl/collecter",
+    "name": "weelion/collecter",
     "type": "library",
-    "description": "ltbl collecter library",
+    "description": "collecter library",
     "keywords": ["collecter"],
     "license": "Apache Licence 2.0",
     "authors": [
@@ -20,12 +20,12 @@
     },
     "autoload": {
         "psr-4": {
-            "Ltbl\\Collecter\\": "src/"
+            "Weelion\\Collecter\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "Ltbl\\Collecter\\": "tests/"
+            "Weelion\\Collecter\\": "tests/"
         }
     },
     "extra": {
