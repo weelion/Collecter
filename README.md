@@ -59,3 +59,10 @@ use Ltbl\Collecter;
 
 The weelion collecter library follows the [PSR-4 Standard](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-4-autoloader.md).
 If you prefer install it manually, it can be autoload by any convenient autoloader.
+
+## USAGE
+
+```
+$httpClient = new GuzzleHttp\Client;
+$collecter = new BaiduCollecterFactory($httpClient, '/tmp/test.txt');
+```
