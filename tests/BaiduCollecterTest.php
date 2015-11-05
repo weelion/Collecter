@@ -1,7 +1,5 @@
 <?php
 
-namespace Ltbl\Collecter\Tests;
-
 use Ltbl\Collecter\BaiduCollecter;
 
 class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
@@ -35,7 +33,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
     /**
      * 测试目录不可写异常
      * @expectedException        Ltbl\Collecter\CollecterException
-     * @expectedExceptionMessage 采集存放路径不可写
+     * @expectedExceptionMessage 采集存放目录不可写
      */
     public function testSavePathNotWritable()
     {

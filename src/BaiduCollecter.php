@@ -26,8 +26,8 @@ class BaiduCollecter implements ICollecter {
         $this->httpClient = $httpClient;
         $this->savePath   = $savePath;
 
-        if(!is_writable($this->savePath)) 
-            throw new CollecterException('采集存放路径不可写');
+        if(!is_writable(dirname($this->savePath)) || !is_readable(dirname($this->savePath))) 
+            throw new CollecterException('采集存放目录不可写');
     }
 
     /**
