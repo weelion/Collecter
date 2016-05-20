@@ -7,7 +7,7 @@ namespace Ltbl\Collecter;
  *
  */
 
-class BaiduCollecter implements ICollecter {
+class BaiduGameCollecter implements ICollecter {
 
     public $content;
     public $items;
@@ -25,9 +25,6 @@ class BaiduCollecter implements ICollecter {
     {
         $this->httpClient = $httpClient;
         $this->savePath   = $savePath;
-
-        if(!is_writable(dirname($this->savePath)) || !is_readable(dirname($this->savePath))) 
-            throw new CollecterException('采集存放目录不可写');
     }
 
     /**
@@ -56,7 +53,7 @@ class BaiduCollecter implements ICollecter {
         $res = $this->httpClient->request('get', $url);
 
         if($res->getStatusCode() != 200) 
-            throw new CollecterException('采集HTTP错误:'. $res->getStatusCode());
+            throw new CollecterException('采集HTTP错误:' . $res->getStatusCode());
 
         $this->content = $res->getBody();
     }
@@ -69,18 +66,29 @@ class BaiduCollecter implements ICollecter {
      */
     public function items()
     {
-
         if(empty($this->content))
             throw new CollecterException("没有采集到任何东西");
 
-        $xml  = @simplexml_load_string($this->content, "SimpleXMLElement", LIBXML_NOCDATA);
-
-        if($xml === false)
+        if(! $this->getXml() )
             throw new CollecterException('采集到内容不合法');
 
-        $data = json_decode(json_encode($xml), true)['data'];
+        $data = $this->xmlToArray($this->getXml());
 
-        $this->items = isset($data[0]) ? $data : [$data];
+        $this->items = isset($data['data'][0]) ? $data['data'] : [$data['data']];
+    }
+
+    public function getXml()
+    {
+        return  @simplexml_load_string(
+            $this->content, 
+            "SimpleXMLElement", 
+            LIBXML_NOCDATA
+        );
+    }
+
+    public function xmlToArray($xml)
+    {
+        return json_decode(json_encode($xml), true);
     }
 
     /**
@@ -90,12 +98,32 @@ class BaiduCollecter implements ICollecter {
      */
     public function save()
     {
-        if(empty($this->items) || !is_array($this->items)) return;
+        if ($this->isWriteable()) { 
+            throw new CollecterException('采集存放目录不可写');
+        }
 
+        if (is_array($this->items)) {
+            $this->saveToFile();
+        }
+    }
+
+    public function saveToFile() 
+    {
         foreach($this->items as $item) {
             $newline = json_encode($item) . "\n";
-            file_put_contents($this->savePath, $newline, FILE_APPEND | LOCK_EX);
+
+            file_put_contents(
+                $this->savePath, 
+                $newline, 
+                FILE_APPEND | LOCK_EX
+            );
         }
+    }
+
+
+    public function isWriteable() 
+    {
+        return ! is_writable(dirname($this->savePath));
     }
 
 }

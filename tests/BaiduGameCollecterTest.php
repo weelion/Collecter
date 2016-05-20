@@ -1,8 +1,8 @@
 <?php
 
-use Ltbl\Collecter\BaiduCollecter;
+use Ltbl\Collecter\BaiduGameCollecter;
 
-class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
+class BaiduGameCollecterTest extends \PHPUnit_Framework_TestCase {
 
     public function setUp()
     {
@@ -26,8 +26,8 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
      */
     public function testConstruct()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
-        $this->assertInstanceOf('\Ltbl\Collecter\BaiduCollecter', $collecter);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
+        $this->assertInstanceOf('\Ltbl\Collecter\BaiduGameCollecter', $collecter);
     }
 
     /**
@@ -37,7 +37,8 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
      */
     public function testSavePathNotWritable()
     {
-        $collecter = new BaiduCollecter($this->httpClient, '');
+        $collecter = new BaiduGameCollecter($this->httpClient, 'http://www.baidu.com');
+        $collecter->save();
     }
 
      /**
@@ -51,7 +52,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
         // $this->httpClient->method('request')->will($this->returnSelf());
         $this->httpClient->method('getStatusCode')->willReturn(404);
 
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
 
         $collecter->crawl('http://xxx');
     }
@@ -64,7 +65,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
         $this->httpClient->method('getStatusCode')->willReturn(200);
         $this->httpClient->method('getBody')->willReturn('xxx');
 
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
 
         $collecter->crawl('somehost');
         $this->assertEquals('xxx', $collecter->content);
@@ -78,7 +79,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
      */
     public function testItemsEmptyArgumentException()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
         $collecter->content = '';
         $collecter->items();
     }
@@ -91,7 +92,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
      */
     public function testItemsNotValidContentException()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
         $collecter->content = 'valid content';
         $collecter->items();
     }
@@ -125,7 +126,7 @@ class BaiduCollecterTest extends \PHPUnit_Framework_TestCase {
 </alldata>
 EOD;
 
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
 
         $collecter->content = $content;
         $collecter->items();
@@ -141,7 +142,7 @@ EOD;
      */
     public function testEmptyItemsSave()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
         $originTime = filemtime($this->savePath);
         $collecter->items = '';
         $collecter->save();
@@ -154,7 +155,7 @@ EOD;
      */
     public function testStringItemsSave()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
         $originTime = filemtime($this->savePath);
 
         $collecter->items = 'sdf';
@@ -168,7 +169,7 @@ EOD;
      */
     public function testRightSave()
     {
-        $collecter = new BaiduCollecter($this->httpClient, $this->savePath);
+        $collecter = new BaiduGameCollecter($this->httpClient, $this->savePath);
 
         $collecter->items = [
             ['aa' => 'aa', 'bb' => 'bb'],
